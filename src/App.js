@@ -15,12 +15,37 @@ const App = () => {
   const [ selected, setSelected ] = useState(null)
   const url = 'http://localhost:3055/users'
 
+  useEffect(() => {
+    axios({
+      url: url + '?id_ne=1'
+    })
+    .then(response => {
+      console.log('useEffect',response)
+      setData(response.data)
+    })
+  },[]);
+
+  const onFilter = () => {
+    var filter = {
+      property: 'firstname',
+      value: 'Joe'
+    };
+    var filters = [filter];
+
+    console.log('onFilter; before setFilters',gridRef.current.getFilters())
+    gridRef.current.setFilters(filters);
+    console.log('onFilter; after setFilters',gridRef.current.getFilters())
+  }
+
+  const onSelect = ({selected}) => {
+    setSelected(selected[0])
+  }
+
+  // const onSetGridTitle = () => {
+  //   gridRef.current.setTitle('hi')
+  // }
+
   const onDelete = () => {
-    console.log('delete')
-
-    // console.log(gridRef.current)
-    // gridRef.current.setTitle('hi')
-
     axios({
       url: url + '/' + selected.id,
       method: 'delete',
@@ -39,16 +64,6 @@ const App = () => {
       })
     })
   }
-
-  useEffect(() => {
-    axios({
-      url: url + '?id_ne=1'
-    })
-    .then(response => {
-      console.log(response)
-      setData(response.data)
-    })
-  },[]);
 
   const initialValues = {
     firstname: '',
@@ -108,66 +123,62 @@ const App = () => {
             <div style={{height:'4px'}}>
               {isSubmitting && <LinearProgress />}
             </div>
-
             <Row style={{fontSize:'16px'}}>
               <Description />
             </Row>
-
             <Row>
-              <Field style={{width:'400px'}}
+              <Field style={{height:'70px',width:'60%'}}
                 component={TextField}
                 name="firstname"
                 type="firstname"
                 label="First Name"
               />
             </Row>
-
             <Row>
-              <Field style={{width:'400px'}}
+              <Field style={{height:'70px',width:'60%'}}
                 component={TextField}
                 name="lastname"
                 type="lastname"
                 label="Last Name"
               />
             </Row>
-
             <Row>
-              <Field style={{width:'400px'}}
+              <Field style={{height:'70px',width:'60%'}}
                 component={TextField}
                 name="email"
                 type="email"
                 label="Email"
               />
             </Row>
-
             <Row style={{fontSize:'24px'}}>
               <div style={{marginTop:'30px',borderBottom:'0px solid red'}}>
                 Sencha Grid for React UI (GRUI) - coming soon!
               </div>
             </Row>
-
             <Row>
-              <SenchaGrid ref={gridRef} style={{width:'500px',height:'200px'}} data={data}
-                listeners= {{
-                  select: function(sender, selected, eOpts) {
-                    console.log(selected[0].data)
-                    setSelected(selected[0].data)
-                  }
+              <SenchaGrid
+                onSelect={onSelect}
+                plugins={{
+                  gridfilters: true
                 }}
+                ref={gridRef}
+                style={{width:'500px',height:'200px'}}
+                data={data}
               >
-              <Column dataIndex="id" text="ID" width="50px" />
+                <Column dataIndex="id" text="ID" width="50px" />
                 <Column dataIndex="firstname" text="First Name" />
                 <Column dataIndex="lastname" text="Last Name" />
                 <Column dataIndex="email" text="Email" width="200px" />
               </SenchaGrid>
             </Row>
-
+            <Row>
+                <Button onClick={onFilter}>Filter First Name of 'Joe' (call setFilters method)</Button>
+            </Row>
             <Row>
                 {selected != null &&
                 <Button onClick={onDelete}>Delete Selected Row - ID: {selected.id}</Button>
                 }
             </Row>
-
             <Footer style={{background:'white',justifyContent:'flex-end'}}>
               <Button
                 variant="contained"
@@ -178,7 +189,6 @@ const App = () => {
                 Submit
               </Button>
             </Footer>
-
           </Form>
         )}
       </Formik>
@@ -187,3 +197,15 @@ const App = () => {
 }
 
 export default App;
+
+//onSelect={onSelect}
+
+// listeners= {{
+//   select: function(sender, selected, eOpts) {
+//     console.log('sender',sender)
+//     console.log('selected',selected)
+//     console.log('eOpts',eOpts)
+//     //console.log(selected[0].data)
+//     setSelected(selected[0].data)
+//   }
+// }}

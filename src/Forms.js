@@ -25,23 +25,6 @@ export function Description(props) {
   )
 }
 
-
-// export const validate = values => {
-//   console.log(values)
-//   const errors = {};
-//   console.log(values.email)
-//   if (values.email.trim() == '') {
-//     console.log('a')
-//     errors.email = 'Required';
-//   } else if (
-//     !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-//   ) {
-//     console.log('c')
-//     errors.email = 'Invalid email address';
-//   }
-//   return errors;
-// }
-
 export const Title = styled.div`
   color: white;
   font-size: 32px;

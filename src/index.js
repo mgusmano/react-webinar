@@ -1,25 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import './index.css'
+import AppOrig from './AppOrig';
+import Dashboard from './Dashboard';
+import Dashboard2 from './Dashboard2';
+import BasicLayout from './BasicLayout';
 
-// function doIt() {
-//   console.log(window['Ext'])
-//   //var elementApp = React.createElement(App,{},null)
-//   window['Ext'].react = {
-//     //elementApp: elementApp,
-//     App: App,
-//     React: React,
-//     ReactDOM: ReactDOM
-//   }
-// }
+import './index.css'
 
 console.log('in react module')
 if (window['Ext'] === undefined) {
   console.log('Ext not found')
 
   var r = document.querySelector(':root');
-  //r.style.setProperty('--base-color', '#3f51b5');
   r.style.setProperty('--base-color', '#2196f3');
 
   ReactDOM.render(
@@ -32,15 +25,18 @@ if (window['Ext'] === undefined) {
 }
 else {
   console.log('Ext found')
-  //document.addEventListener('DOMContentLoaded', doIt, false);
   document.addEventListener('DOMContentLoaded', function(){
-    //console.log(window['Ext'])
-    //var elementApp = React.createElement(App,{},null)
     window['Ext'].react = {
-      //elementApp: elementApp,
+      AppOrig: AppOrig,
       App: App,
+      Dashboard: Dashboard,
+      Dashboard2: Dashboard2,
+      BasicLayout: BasicLayout,
       React: React,
       ReactDOM: ReactDOM
     }
   }, false);
 }
+
+    //console.log(window['Ext'])
+    //var elementApp = React.createElement(App,{},null)
