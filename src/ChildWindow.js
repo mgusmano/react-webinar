@@ -1,92 +1,76 @@
-import React, {useRef, useState, useEffect} from 'react';
+import React, {useRef, useEffect} from 'react';
 
 const ChildWindow = (props) => {
-  const [ nwc, setNwc ] = useState(null)
+  const contentRef = useRef();
+  const extContainer = { current: null }
 
-
-
-  const Ext = window['Ext']
-    const contentRef = useRef();
-    var newWidgetContainer = null;
-
-    const doResize = () => {
-      console.log('newWidgetContainer',newWidgetContainer)
-
-      //call this only for classic toolkit
-      if (newWidgetContainer !== null) {
-        if (newWidgetContainer.updateLayout !== undefined) {
-          console.log('ChildWindow - resize')
-          newWidgetContainer.updateLayout()
-        }
+  const doResize = (entries) => {
+    if (extContainer.current !== null) {
+      if (extContainer.current.updateLayout !== undefined) {
+        extContainer.current.updateLayout()
       }
     }
-
-    // console.log(props.widthchange)
-    // if (props.widthchange !== 0) {
-    //   //doResize()
-    //   setWidthChange(props.widthchange)
-    // }
-
-
-
-    const doResize2 = () => {
-      console.log('ChildWindow - resize2')
-      //call this only for classic toolkit
-      if (newWidgetContainer.updateLayout !== undefined) {
-          newWidgetContainer.updateLayout()
-      }
+    else {
+      console.log('newWidgetContainer is null')
+    }
   }
 
-    useEffect(() => {
-        newWidgetContainer = Ext.create('Ext.Container', {
-          width: '100%',
-          height: '100%',
-          layout: 'fit',
-          renderTo: contentRef.current
-        });
-        //console.log('setNwc',newWidgetContainer)
-        setNwc(newWidgetContainer)
-        //newWidgetContainer.add(props.item);
+  useEffect(() => {
+    const Ext = window['Ext']
+    extContainer.current = Ext.create('Ext.Container', {
+      width: '100%',
+      height: '100%',
+      layout: 'fit',
+      renderTo: contentRef.current
+    });
+    // extContainer.current.add({
+    //   xtype: 'panel',
+    //   title: props.text,
+    //   layout: 'fit',
+    //   items: [
+    //     {xtype: 'button', text: 'Ext JS Button', border: true}
+    //   ]
+    // });
 
-        newWidgetContainer.add({
-          xtype: 'panel',
-          title: props.text,
-          layout: 'fit',
-          items: [
-            {xtype: 'button', text: 'Ext JS Button', border: true}
-          ]
-        });
+    extContainer.current.add({
+        xtype: 'grid',
+        title: props.text,
+        store: {
+          data: [
+          {firstname:'Marc',lastname:'Gusmano',email:'something@somewhere.com'},
+          {firstname:'Nick',lastname:'Gusmano',email:'something@somewhere.com'},
+          {firstname:'Andy',lastname:'Gusmano',email:'something@somewhere.com'},
+          {firstname:'Nikki',lastname:'Gusmano',email:'something@somewhere.com'},
+          {firstname:'Bob',lastname:'Smith',email:'something@somewhere.com'},
+          {firstname:'John',lastname:'Jones',email:'something@somewhere.com'},
+        ]},
+        columns: [
+          {text: 'First',dataIndex: 'firstname'},
+          {text: 'Last',dataIndex: 'lastname'},
+          {text: 'Email',dataIndex: 'email', flex: 1},
+        ]
+    });
 
-        //console.log(contentRef.current)
-        contentRef.current.addEventListener("resize", doResize2);
-        window.addEventListener("resize", doResize);
-        return () => {
-          window.removeEventListener('resize', doResize);
-          contentRef.current.removeEventListener('resize', doResize2);
-        }
+    var lro = new ResizeObserver(doResize);
+    lro.observe(contentRef.current)
+    //setRo(lro)
+    return () => lro.unobserve(contentRef.current);
+  }, []);
 
-    }, []);
-
-      //console.log(nwc)
-  if (nwc !== null) {
-    nwc.updateLayout()
-  }
-
-    // TODO: I think this should be controlled by a flag passed in from SDM or something like manuallyHandleResize or something
-    // IF on line 10 should cover this
-    return (
-            // TODO: pull styles out.
-            <div className="rgl-rendered-ext-container" ref={contentRef} style={{
-                fontSize: '11px',
-                width: '100%',
-                height: '100%',
-                border: '0px solid blue',
-                boxSizing: 'border-box'
-                }}>
-
-
-            </div>
-        );
+  return (
+    <div
+      className="rgl-rendered-ext-container"
+      ref={contentRef}
+      style={{
+        fontSize: '11px',
+        width: '100%',
+        height: '100%',
+        border: '0px solid blue',
+        boxSizing: 'border-box'
+      }}
+    >
+    </div>
+  );
 };
 
 export default ChildWindow;

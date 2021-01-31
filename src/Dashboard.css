@@ -72,6 +72,7 @@
   bottom: 0;
   right: 0;
   cursor: se-resize;
+  z-index: 1000;
 }
 .react-grid-item > .react-resizable-handle.react-resizable-handle-nw {
   top: 0;

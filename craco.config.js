@@ -7,6 +7,11 @@ module.exports = {
   },
   webpack: {
     configure: (webpackConfig, { env, paths }) => {
+      webpackConfig.devServer = {
+        writeToDisk: true,
+        inline: false,
+        hot: false
+      },
       webpackConfig.entry = './src/index.js',
       webpackConfig.mode = 'development',
       webpackConfig.devtool = 'inline-source-map',

@@ -17,7 +17,7 @@ if (window['Ext'] === undefined) {
 
   ReactDOM.render(
     <React.StrictMode>
-      <App />
+      <BasicLayout />
     </React.StrictMode>,
     document.getElementById('root')
   );
