@@ -9,6 +9,8 @@ export default class BasicLayout extends React.PureComponent {
     compactType: null,
     items: 5,
     rowHeight: 50,
+    resizeHandles: ['s','e','se'],
+    margin: [30, 30],
     onLayoutChange: function() {},
     cols: 6
   };
@@ -17,30 +19,29 @@ export default class BasicLayout extends React.PureComponent {
     super(props);
     this._div = null;
     this.mounted = false;
-
     const layout = this.generateLayout();
     this.state = { layout };
   }
 
   doResize = (entries) => {
     for (let entry of entries) {
-        if (this.mounted === true) {
-            this.setState({width: entry.contentRect.width});
-        }
+      if (this.mounted === true) {
+        this.setState({width: entry.contentRect.width});
+      }
     }
   };
 
   componentDidMount() {
-      //https://web.dev/resize-observer/
-      this.mounted = true;
-      this.ro = new ResizeObserver(this.doResize);
-      this.ro.observe(this._div);
+    //https://web.dev/resize-observer/
+    this.mounted = true;
+    this.ro = new ResizeObserver(this.doResize);
+    this.ro.observe(this._div);
   }
 
   componentWillUnmount() {
-      console.log('componentWillUnmount')
-      this.mounted = false;
-      this.ro.unobserve(this._div)
+    console.log('componentWillUnmount')
+    this.mounted = false;
+    this.ro.unobserve(this._div)
   }
 
   generateDOM() {
@@ -48,7 +49,7 @@ export default class BasicLayout extends React.PureComponent {
       var text = 'Ext JS Child ' + i
       console.log(text)
       return (
-        <div style={{border:'0px solid gray',boxShadow:'5px 5px 5px #888888'}} key={i}>
+        <div style={{border:'1px solid lightgray',boxShadow:'5px 5px 5px #888888'}} key={i}>
           <ChildWindow text={text}></ChildWindow>
         </div>
       );
@@ -74,7 +75,7 @@ export default class BasicLayout extends React.PureComponent {
   render() {
     return (
       <div
-        className='mjg'
+        className='grid-layout-root'
         ref={c => (this._div = c)}
         style={{
           height: '100%',
