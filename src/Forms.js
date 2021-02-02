@@ -3,17 +3,18 @@ import styled from "styled-components";
 export function Description(props) {
 
   return (
-    <>
-    This is a React View<br/>
-    <br/>
-    react features used:<br/>
+    <div  style={{display:'flex',flexDirection:'row'}}>
+      <div>
+    react features used:<br/><br/>
     - function component<br/>
     - useState<br/>
     - useEffect<br/>
     - useRef<br/>
     - conditional JSX<br/>
     <br/>
-    npm packages used:<br/>
+      </div>
+      <div style={{marginLeft:'40px'}}>
+    npm packages used:<br/><br/>
     - @material-ui/core<br/>
     - @sencha/sencha-grid<br/>
     - axios<br/>
@@ -21,7 +22,8 @@ export function Description(props) {
     - formik-material-ui<br/>
     - styled-components<br/>
     - yup<br/>
-    </>
+      </div>
+    </div>
   )
 }
 

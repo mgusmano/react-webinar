@@ -1,36 +1,41 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
 import AppOrig from './AppOrig';
-import Dashboard from './Dashboard';
-import Dashboard2 from './Dashboard2';
+import App from './App';
 import BasicLayout from './BasicLayout';
-
 import './index.css'
 
-console.log('in react module')
+// var layoutsConfig = {
+//   layouts:  [
+//     {"x":0,"y":0,"w":2,"h":5,"i":"0"},
+//     {"x":2,"y":0,"w":2,"h":5,"i":"1"},
+//     {"x":4,"y":0,"w":2,"h":5,"i":"2"},
+//     {"x":0,"y":5,"w":3,"h":5,"i":"3"},
+//     {"x":3,"y":5,"w":3,"h":5,"i":"4"}
+//   ],
+//   widgets: [
+//     {renderable: null},
+//     {renderable: null},
+//     {renderable: null},
+//     {renderable: null},
+//     {renderable: null}
+//   ]
+// }
+//<BasicLayout layoutsConfig={layoutsConfig}/>,
+//console.log('in react module')
+//console.log('Ext not found')
+
 if (window['Ext'] === undefined) {
-  console.log('Ext not found')
-
-  var r = document.querySelector(':root');
-  r.style.setProperty('--base-color', '#2196f3');
-
   ReactDOM.render(
-    <React.StrictMode>
-      <BasicLayout />
-    </React.StrictMode>,
+    <AppOrig/>,
     document.getElementById('root')
   );
-
 }
 else {
-  console.log('Ext found')
   document.addEventListener('DOMContentLoaded', function(){
     window['Ext'].react = {
       AppOrig: AppOrig,
       App: App,
-      Dashboard: Dashboard,
-      Dashboard2: Dashboard2,
       BasicLayout: BasicLayout,
       React: React,
       ReactDOM: ReactDOM
@@ -38,5 +43,5 @@ else {
   }, false);
 }
 
-    //console.log(window['Ext'])
-    //var elementApp = React.createElement(App,{},null)
+//console.log(window['Ext'])
+//var elementApp = React.createElement(App,{},null)

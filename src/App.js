@@ -11,6 +11,7 @@ import axios from 'axios';
 
 const App = () => {
   const gridRef = useRef(null)
+  const [ message, setMessage ] = useState(null)
   const [ data, setData ] = useState([])
   const [ selected, setSelected ] = useState(null)
   const url = 'http://localhost:3055/users'
@@ -23,7 +24,17 @@ const App = () => {
       console.log('useEffect',response)
       setData(response.data)
     })
+
+    window.addEventListener('mjg', onMessage);
+    return function cleanup() {
+      window.removeEventListener('mjg', onMessage);
+    };
+
   },[]);
+
+  const onMessage = (event) => {
+    setMessage(event.detail.message)
+  }
 
   const onFilter = () => {
     var filter = {
@@ -83,6 +94,18 @@ const App = () => {
       .email('Email is not valid!')
       .required('Email is required!')
   })
+
+  // const onSubmit2 = async (values, { setSubmitting, resetForm }) => {
+  //   try {
+  //     let res = await axios.get("https://node-hnapi.herokuapp.com/news");
+  //     let { data } = res;
+
+  //     dispatch({ type: GET_NEWS, payload: data });
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
   const onSubmit = (values, { setSubmitting, resetForm }) => {
     axios({
       url: url,
@@ -125,6 +148,9 @@ const App = () => {
             </div>
             <Row style={{fontSize:'16px'}}>
               <Description />
+            </Row>
+            <Row style={{fontSize:'11px'}}>
+              message: {message}
             </Row>
             <Row>
               <Field style={{height:'70px',width:'60%'}}

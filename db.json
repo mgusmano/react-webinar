@@ -7,12 +7,6 @@
       "email": "bob.smith@gmail.com"
     },
     {
-      "firstname": "Marc",
-      "lastname": "Gusmano",
-      "email": "mgusmano@yahoo.com",
-      "id": 4
-    },
-    {
       "firstname": "Joe",
       "lastname": "Gusmano",
       "email": "mgusmano@yahoo.com",
@@ -23,6 +17,12 @@
       "lastname": "Gusmano",
       "email": "mgusmano@yahoo.com",
       "id": 6
+    },
+    {
+      "firstname": "Marc",
+      "lastname": "Gusmano",
+      "email": "mgusmano@yahoo.com",
+      "id": 7
     }
   ],
   "posts": [

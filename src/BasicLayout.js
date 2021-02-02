@@ -19,8 +19,10 @@ export default class BasicLayout extends React.PureComponent {
     super(props);
     this._div = null;
     this.mounted = false;
-    const layout = this.generateLayout();
-    this.state = { layout };
+    this.state = {
+      layouts: this.props.layoutsConfig.layouts,
+      widgets: this.props.layoutsConfig.widgets,
+    };
   }
 
   doResize = (entries) => {
@@ -45,26 +47,15 @@ export default class BasicLayout extends React.PureComponent {
   }
 
   generateDOM() {
+    var me = this;
     return _.map(_.range(this.props.items), function(i) {
       var text = 'Ext JS Child ' + i
-      console.log(text)
       return (
         <div style={{border:'1px solid lightgray',boxShadow:'5px 5px 5px #888888'}} key={i}>
-          <ChildWindow text={text}></ChildWindow>
+          <ChildWindow widget={me.state.widgets[i]} id={i} text={text}></ChildWindow>
         </div>
       );
     });
-  }
-
-  generateLayout() {
-    var layout = [
-      {"x":0,"y":0,"w":2,"h":5,"i":"0"},
-      {"x":2,"y":0,"w":2,"h":5,"i":"1"},
-      {"x":4,"y":0,"w":2,"h":5,"i":"2"},
-      {"x":0,"y":5,"w":3,"h":5,"i":"3"},
-      {"x":3,"y":5,"w":3,"h":5,"i":"4"},
-    ]
-    return layout
   }
 
   onLayoutChange(layout) {
@@ -86,11 +77,12 @@ export default class BasicLayout extends React.PureComponent {
           boxShadow:'5px 10px 18px #888888'
         }}
       >
-        {this.state.width !== null &&
+        {this.state.width !== undefined &&
         <ReactGridLayout
-          layout={this.state.layout}
+          layout={this.state.layouts}
           width={this.state.width}
           onResize={(layout, oldResizeItem, l, placeholder, e, node)=>{
+            console.log('onReszie')
             this.setState({layout: layout})
           }}
           {...this.props}
@@ -102,22 +94,3 @@ export default class BasicLayout extends React.PureComponent {
     );
   }
 }
-
-
-
-  // generateLayout2() {
-  //   const p = this.props;
-  //   return _.map(new Array(p.items), function(item, i) {
-  //     var r = Math.ceil(Math.random() * 8) + 2
-  //     //console.log(r)
-  //     //const y = _.result(p, "y") || Math.ceil(Math.random() * 8) + 1;
-  //     return {
-  //       x: (i * 2) % 6,
-  //       //y: Math.floor(i / 6) * y,
-  //       y: r,
-  //       w: 2,
-  //       h: 8,
-  //       i: i.toString()
-  //     };
-  //   });
-  // }

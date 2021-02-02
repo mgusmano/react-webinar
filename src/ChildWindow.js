@@ -17,8 +17,8 @@ const ChildWindow = (props) => {
 
   useEffect(() => {
     const Ext = window['Ext']
-
-    if (Ext == undefined) {
+    const currentRef = contentRef.current
+    if (Ext === undefined) {
       const newDiv = document.createElement("div");
       newDiv.style.width = "200px";
       newDiv.style.height = "200px";
@@ -30,45 +30,17 @@ const ChildWindow = (props) => {
       return
     }
 
-
     extContainer.current = Ext.create('Ext.Container', {
       width: '100%',
       height: '100%',
       layout: 'fit',
       renderTo: contentRef.current
     });
-    // extContainer.current.add({
-    //   xtype: 'panel',
-    //   title: props.text,
-    //   layout: 'fit',
-    //   items: [
-    //     {xtype: 'button', text: 'Ext JS Button', border: true}
-    //   ]
-    // });
+    extContainer.current.add(props.widget.renderable)
 
-    extContainer.current.add({
-        xtype: 'grid',
-        title: props.text,
-        store: {
-          data: [
-          {firstname:'Marc',lastname:'Gusmano',email:'something@somewhere.com'},
-          {firstname:'Nick',lastname:'Gusmano',email:'something@somewhere.com'},
-          {firstname:'Andy',lastname:'Gusmano',email:'something@somewhere.com'},
-          {firstname:'Nikki',lastname:'Gusmano',email:'something@somewhere.com'},
-          {firstname:'Bob',lastname:'Smith',email:'something@somewhere.com'},
-          {firstname:'John',lastname:'Jones',email:'something@somewhere.com'},
-        ]},
-        columns: [
-          {text: 'First',dataIndex: 'firstname'},
-          {text: 'Last',dataIndex: 'lastname'},
-          {text: 'Email',dataIndex: 'email', flex: 1},
-        ]
-    });
-
-    var lro = new ResizeObserver(doResize);
-    lro.observe(contentRef.current)
-    //setRo(lro)
-    return () => lro.unobserve(contentRef.current);
+    var ro = new ResizeObserver(doResize);
+    ro.observe(contentRef.current)
+    return () => ro.unobserve(currentRef);
   }, []);
 
   return (
