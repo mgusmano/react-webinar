@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import AppOrig from './AppOrig';
+//import AppOrig from './AppOrig';
 import App from './App';
+import RawForm from './RawForm';
+import FormikForm from './FormikForm';
 import BasicLayout from './BasicLayout';
 import './index.css'
 
@@ -24,17 +26,17 @@ import './index.css'
 //<BasicLayout layoutsConfig={layoutsConfig}/>,
 //console.log('in react module')
 //console.log('Ext not found')
-
+console.log(window['Ext'])
 if (window['Ext'] === undefined) {
   ReactDOM.render(
-    <AppOrig/>,
+    <App/>,
     document.getElementById('root')
   );
 }
 else {
   document.addEventListener('DOMContentLoaded', function(){
     window['Ext'].react = {
-      AppOrig: AppOrig,
+      //AppOrig: AppOrig,
       App: App,
       BasicLayout: BasicLayout,
       React: React,

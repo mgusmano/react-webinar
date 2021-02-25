@@ -11,6 +11,7 @@ import axios from 'axios';
 
 const App = () => {
   const gridRef = useRef(null)
+  //const [ message, setMessage ] = useState(null)
   const [ data, setData ] = useState([])
   const [ selected, setSelected ] = useState(null)
   const url = 'http://localhost:3055/users'
@@ -23,7 +24,17 @@ const App = () => {
       console.log('useEffect',response)
       setData(response.data)
     })
+
+    // window.addEventListener('mjg', onMessage);
+    // return function cleanup() {
+    //   window.removeEventListener('mjg', onMessage);
+    // };
+
   },[]);
+
+  // const onMessage = (event) => {
+  //   setMessage(event.detail.message)
+  // }
 
   const onFilter = () => {
     var filter = {
@@ -31,12 +42,19 @@ const App = () => {
       value: 'Joe'
     };
     var filters = [filter];
+
+    console.log('onFilter; before setFilters',gridRef.current.getFilters())
     gridRef.current.setFilters(filters);
+    console.log('onFilter; after setFilters',gridRef.current.getFilters())
   }
 
   const onSelect = ({selected}) => {
     setSelected(selected[0])
   }
+
+  // const onSetGridTitle = () => {
+  //   gridRef.current.setTitle('hi')
+  // }
 
   const onDelete = () => {
     axios({
@@ -51,7 +69,9 @@ const App = () => {
         url: url + '?id_ne=1'
       })
       .then(response => {
+        console.log(response)
         setSelected(null)
+        setData(response.data)
       })
     })
   }
@@ -74,6 +94,17 @@ const App = () => {
       .email('Email is not valid!')
       .required('Email is required!')
   })
+
+  // const onSubmit2 = async (values, { setSubmitting, resetForm }) => {
+  //   try {
+  //     let res = await axios.get("https://node-hnapi.herokuapp.com/news");
+  //     let { data } = res;
+
+  //     dispatch({ type: GET_NEWS, payload: data });
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   const onSubmit = (values, { setSubmitting, resetForm }) => {
     axios({
@@ -115,9 +146,12 @@ const App = () => {
             <div style={{height:'4px'}}>
               {isSubmitting && <LinearProgress />}
             </div>
-            <Row style={{fontSize:'16px'}}>
-              Enter your information and click 'Submit'
-            </Row>
+            {/* <Row style={{fontSize:'16px'}}>
+              <Description />
+            </Row> */}
+            {/* <Row style={{fontSize:'11px'}}>
+              message: {message}
+            </Row> */}
             <Row>
               <Field style={{height:'70px',width:'60%'}}
                 component={TextField}
@@ -189,3 +223,15 @@ const App = () => {
 }
 
 export default App;
+
+//onSelect={onSelect}
+
+// listeners= {{
+//   select: function(sender, selected, eOpts) {
+//     console.log('sender',sender)
+//     console.log('selected',selected)
+//     console.log('eOpts',eOpts)
+//     //console.log(selected[0].data)
+//     setSelected(selected[0].data)
+//   }
+// }}
